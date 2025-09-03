@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { SubOccupancy, CalculatedFees } from './types';
-import { OCCUPANCY_DATA, FEE_RATES } from './constants';
-import InputField from './components/InputField';
-import SelectField from './components/SelectField';
-import FeeDisplay from './components/FeeDisplay';
-import ToggleSwitch from './components/ToggleSwitch';
+import type { SubOccupancy, CalculatedFees } from './types.ts';
+import { OCCUPANCY_DATA, FEE_RATES } from './constants.ts';
+import InputField from './components/InputField.tsx';
+import SelectField from './components/SelectField.tsx';
+import FeeDisplay from './components/FeeDisplay.tsx';
+import ToggleSwitch from './components/ToggleSwitch.tsx';
 
 const App: React.FC = () => {
     // Theme state

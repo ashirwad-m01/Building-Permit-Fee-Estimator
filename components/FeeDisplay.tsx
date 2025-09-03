@@ -1,5 +1,5 @@
 import React from 'react';
-import type { CalculatedFees } from '../types';
+import type { CalculatedFees } from '../types.ts';
 
 interface FeeDisplayProps {
   fees: CalculatedFees | null;
