@@ -6,6 +6,17 @@ import SelectField from './components/SelectField.tsx';
 import FeeDisplay from './components/FeeDisplay.tsx';
 import ToggleSwitch from './components/ToggleSwitch.tsx';
 
+const INITIAL_STATE = {
+    plotArea: '100',
+    builtUpArea: '150',
+    dwellingUnits: '1',
+    tempSheds: '0',
+    tempRccArea: '0',
+    purchasableFarCost: '0',
+    projectBefore2018: false,
+};
+
+
 const App: React.FC = () => {
     // Theme state
     const [theme, setTheme] = useState(() => {
@@ -36,13 +47,13 @@ const App: React.FC = () => {
     // Input State
     const [occupancyId, setOccupancyId] = useState<string>('');
     const [subOccupancyId, setSubOccupancyId] = useState<string>('');
-    const [plotArea, setPlotArea] = useState<string>('100');
-    const [builtUpArea, setBuiltUpArea] = useState<string>('150');
-    const [dwellingUnits, setDwellingUnits] = useState<string>('1');
-    const [tempSheds, setTempSheds] = useState<string>('0');
-    const [tempRccArea, setTempRccArea] = useState<string>('0');
-    const [purchasableFarCost, setPurchasableFarCost] = useState<string>('0');
-    const [projectBefore2018, setProjectBefore2018] = useState<boolean>(false);
+    const [plotArea, setPlotArea] = useState<string>(INITIAL_STATE.plotArea);
+    const [builtUpArea, setBuiltUpArea] = useState<string>(INITIAL_STATE.builtUpArea);
+    const [dwellingUnits, setDwellingUnits] = useState<string>(INITIAL_STATE.dwellingUnits);
+    const [tempSheds, setTempSheds] = useState<string>(INITIAL_STATE.tempSheds);
+    const [tempRccArea, setTempRccArea] = useState<string>(INITIAL_STATE.tempRccArea);
+    const [purchasableFarCost, setPurchasableFarCost] = useState<string>(INITIAL_STATE.purchasableFarCost);
+    const [projectBefore2018, setProjectBefore2018] = useState<boolean>(INITIAL_STATE.projectBefore2018);
 
     // Derived State
     const [subOccupancies, setSubOccupancies] = useState<SubOccupancy[]>([]);
@@ -66,6 +77,29 @@ const App: React.FC = () => {
     const handleSubOccupancyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSubOccupancyId(e.target.value);
     };
+
+    const resetForm = useCallback(() => {
+        setPlotArea(INITIAL_STATE.plotArea);
+        setBuiltUpArea(INITIAL_STATE.builtUpArea);
+        setDwellingUnits(INITIAL_STATE.dwellingUnits);
+        setTempSheds(INITIAL_STATE.tempSheds);
+        setTempRccArea(INITIAL_STATE.tempRccArea);
+        setPurchasableFarCost(INITIAL_STATE.purchasableFarCost);
+        setProjectBefore2018(INITIAL_STATE.projectBefore2018);
+
+        // Reset occupancy and sub-occupancy to the first available option
+        if (OCCUPANCY_DATA.length > 0) {
+            const firstOccupancy = OCCUPANCY_DATA[0];
+            setOccupancyId(firstOccupancy.id);
+            const firstSubOccupancies = firstOccupancy.subOccupancies || [];
+            setSubOccupancies(firstSubOccupancies);
+            if (firstSubOccupancies.length > 0) {
+                setSubOccupancyId(firstSubOccupancies[0].id);
+            } else {
+                setSubOccupancyId('');
+            }
+        }
+    }, []);
 
     const calculateFees = useCallback(() => {
         if (!selectedSubOccupancy) return;
@@ -201,6 +235,16 @@ const App: React.FC = () => {
                                      <ToggleSwitch label="Project before 2018" enabled={projectBefore2018} setEnabled={setProjectBefore2018} />
                                 </div>
                              </div>
+
+                             <div className="mt-6 pt-4 border-t border-light-border dark:border-dark-border">
+                                <button
+                                    type="button"
+                                    onClick={resetForm}
+                                    className="w-full py-2 px-4 border border-light-border dark:border-dark-border text-sm font-medium rounded-md text-light-secondary dark:text-dark-secondary hover:bg-light-border/40 dark:hover:bg-dark-border/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-colors"
+                                >
+                                    Reset Form
+                                </button>
+                            </div>
 
                         </div>
                     </div>
