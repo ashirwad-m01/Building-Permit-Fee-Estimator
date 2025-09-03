@@ -1,0 +1,5 @@
+{
+  "name": "Building Permit Fee Estimator",
+  "description": "A web-based tool to estimate building permit fees based on occupancy types, area, and other project details. It provides a detailed breakdown of various fee categories for construction projects.",
+  "requestFramePermissions": []
+}
